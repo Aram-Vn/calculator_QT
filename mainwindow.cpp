@@ -42,6 +42,48 @@ MainWindow::MainWindow(QWidget *parent)
             QPushButton *butt = new QPushButton(buttons[pos++]);
             grid->addWidget(butt, i, j);
             connect(butt, &QPushButton::clicked, this, &MainWindow::buttonClicked);
+
+            if(i < 3 && j < 3 || (i == 3 && j == 1)){
+                butt->setStyleSheet("QPushButton {"
+                                    "   background-color: #4CAF50;"
+                                    "   border: 1px solid #4CAF50;"
+                                    "   color: white;"
+                                    "   padding: 8px 16px;"
+                                    "   text-align: center;"
+                                    "   text-decoration: none;"
+                                    "   display: inline-block;"
+                                    "   font-size: 16px;"
+                                    "   margin: 4px 2px;"
+                                    "   transition-duration: 0.4s;"
+                                    "   cursor: pointer;"
+                                    "   border-radius: 5px;"
+                                    "}"
+                                    "QPushButton:hover {"
+                                    "   background-color: white;"
+                                    "   color: black;"
+                                    "}");
+            }
+            else
+            {
+                butt->setStyleSheet("QPushButton {"
+                                    "   background-color: #FFA500;"
+                                    "   border: 1px solid #4CAF50;"
+                                    "   color: white;"
+                                    "   padding: 8px 16px;"
+                                    "   text-align: center;"
+                                    "   text-decoration: none;"
+                                    "   display: inline-block;"
+                                    "   font-size: 16px;"
+                                    "   margin: 4px 2px;"
+                                    "   transition-duration: 0.4s;"
+                                    "   cursor: pointer;"
+                                    "   border-radius: 5px;"
+                                    "}"
+                                    "QPushButton:hover {"
+                                    "   background-color: white;"
+                                    "   color: black;"
+                                    "}");
+            }
         }
     }
 
@@ -114,8 +156,6 @@ void MainWindow::buttonClicked()
         return;
     }
     QRegExp operator_reg("([+\\-*/])");
-
-    std::cout << button->text().toStdString() << std::endl;
 
     if(button->text().contains(operator_reg))
     {
