@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
             grid->addWidget(butt, i, j);
             connect(butt, &QPushButton::clicked, this, &MainWindow::buttonClicked);
 
-            if(i < 3 && j < 3 || (i == 3 && j == 1)){
+            if(i < 3 && j < 3 || (i == 3 && j == 1))
+            {
                 butt->setStyleSheet("QPushButton {"
                                     "   background-color: #4CAF50;"
                                     "   border: 1px solid #4CAF50;"
@@ -87,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     vl->addLayout(grid);
-    setFixedSize(300, 400);
+    setFixedSize(300, 325);
 }
 
 MainWindow::~MainWindow()
@@ -164,6 +165,11 @@ void MainWindow::buttonClicked()
         return;
     }
     QRegExp operator_reg("([+\\-*/])");
+
+    if(m_operator_is_set && button->text().contains(operator_reg) && !m_flag_first_operand_isempty && m_flag_second_operand_isempty)
+    {
+        return;
+    }
 
     if(button->text().contains(operator_reg))
     {
