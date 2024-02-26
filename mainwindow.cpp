@@ -116,6 +116,7 @@ void MainWindow::multiply(double a, double b)
     m_flag_first_operand_isempty = true;
     m_flag_second_operand_isempty = true;
 }
+#include <QTextCharFormat>
 
 void MainWindow::divide(double a, double b)
 {
@@ -127,6 +128,9 @@ void MainWindow::divide(double a, double b)
     }
     else
     {
+        QPalette palette = display->palette();
+        palette.setColor(QPalette::Text, Qt::red);
+        display->setPalette(palette);
         display->setText("Error");
     }
 }
@@ -137,6 +141,9 @@ void MainWindow::clear_screan()
     m_flag_first_operand_isempty = true;
     m_flag_second_operand_isempty = true;
     m_operator_is_set = false;
+    QPalette palette = display->palette();
+    palette.setColor(QPalette::Text, Qt::white);
+    display->setPalette(palette);
     display->setPlaceholderText("0");
 }
 
