@@ -27,18 +27,22 @@ private slots:
     void buttonClicked();
 
 private:
-    std::optional<double> add(double a, double b);
-    std::optional<double> subtract(double a, double b);
-    std::optional<double> multiply(double a, double b);
-    std::optional<double> divide(double a, double b);
+    void add(double a, double b);
+    void subtract(double a, double b);
+    void multiply(double a, double b);
+    void divide(double a, double b);
     void handleOperatorClicked(const QString& op);
+    void clear_screan();
+
 private:
     Ui::MainWindow *ui;
     QLineEdit*     display;
-    std::map<QString, std::function<std::optional<double>(double, double)>> m_operator_functions;
-    QString        m_first_operand;
-    QString        m_second_operand;
-    QString        m_result;
-    bool           m_flag_first_operand_isempty;
+    std::map<QString, std::function<void(double, double)>> m_operationMap;
+    QString m_first_operand;
+    bool m_flag_first_operand_isempty;
+    QString m_operator;
+    bool m_operator_is_set;
+    QString m_second_operand;
+    bool m_flag_second_operand_isempty;
 };
 #endif // MAINWINDOW_H

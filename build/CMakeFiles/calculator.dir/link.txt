@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/calculator.dir/calculator_autogen/mocs_compilation.cpp.o CMakeFiles/calculator.dir/main.cpp.o CMakeFiles/calculator.dir/mainwindow.cpp.o -o calculator  /usr/lib/libQt5Widgets.so.5.15.12 /usr/lib/libQt5Gui.so.5.15.12 /usr/lib/libQt5Core.so.5.15.12 

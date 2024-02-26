@@ -7,17 +7,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_flag_first_operand_isempty(true)
-    , m_result("0")
+    , m_flag_second_operand_isempty(true)
+    , m_operator_is_set(false)
 {
-
-    m_operator_functions = {
-                            {"+", [this](double a, double b) { return add(a, b); }},
-                            {"-", [this](double a, double b) { return subtract(a, b); }},
-                            {"*", [this](double a, double b) { return multiply(a, b); }},
-                            {"/", [this](double a, double b) { return divide(a, b); }},
-                            };
-
     ui->setupUi(this);
+
+    m_operationMap["+"] = [this](double a, double b) { add(a, b); };
+    m_operationMap["-"] = [this](double a, double b) { subtract(a, b); };
+    m_operationMap["*"] = [this](double a, double b) { multiply(a, b); };
+    m_operationMap["/"] = [this](double a, double b) { divide(a, b); };
 
     QVBoxLayout* vl = new QVBoxLayout(ui->centralwidget);
     display = new QLineEdit;
@@ -56,29 +54,47 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-std::optional<double> MainWindow::add(double a, double b)
+void MainWindow::add(double a, double b)
 {
-    std::cout << "YES add" << std::endl;
-    std::cout << a << " " << b << std::endl;
-    return a + b;
+    display->setText( QString::number(a + b));
+    m_flag_first_operand_isempty = true;
+    m_flag_second_operand_isempty = true;
 }
 
-std::optional<double> MainWindow::subtract(double a, double b)
+void MainWindow::subtract(double a, double b)
 {
-    return a - b;
+    display->setText( QString::number(a - b));
+    m_flag_first_operand_isempty = true;
+    m_flag_second_operand_isempty = true;
 }
 
-std::optional<double> MainWindow::multiply(double a, double b)
+void MainWindow::multiply(double a, double b)
 {
-    return a * b;
+    display->setText( QString::number(a * b));
+    m_flag_first_operand_isempty = true;
+    m_flag_second_operand_isempty = true;
 }
 
-std::optional<double> MainWindow::divide(double a, double b)
+void MainWindow::divide(double a, double b)
 {
-    if (b != 0)
-        return a / b;
+    if(b != 0)
+    {
+        display->setText( QString::number(a / b));
+        m_flag_first_operand_isempty = true;
+        m_flag_second_operand_isempty = true;
+    }
     else
-        return std::nullopt;
+    {
+        display->setText("Error");
+    }
+}
+
+void MainWindow::clear_screan()
+{
+    display->clear();
+    m_flag_first_operand_isempty = true;
+    m_flag_second_operand_isempty = true;
+    m_operator_is_set = false;
 }
 
 
@@ -86,70 +102,75 @@ void MainWindow::buttonClicked()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
 
+    if(display->text() == "Error")
+    {
+        clear_screan();
+    }
+
     if(button->text() == "c")
     {
-        display->clear();
-        m_first_operand = "";
-        m_second_operand = "";
-        m_result = "";
-        m_flag_first_operand_isempty = true;
+        clear_screan();
         return;
     }
-
     QRegExp operator_reg("([+\\-*/])");
 
-    if(button->text().contains(operator_reg) && m_flag_first_operand_isempty)
+    if(button->text().contains(operator_reg))
     {
-        m_first_operand = display->text();
-        std::cout << m_first_operand.toStdString() << std::endl;
-        m_flag_first_operand_isempty = false;
-        display->clear();
-        return;
-    }
-    else if(button->text().contains(operator_reg) && button->text().contains(operator_reg))
-    {
-        m_second_operand =display->text();
-        std::cout << m_second_operand.toStdString() << std::endl;
-        display->clear();
-
-        QString operatorString = button->text();
-
-        if(m_operator_functions.find(operatorString) != m_operator_functions.end())
+        if(m_flag_first_operand_isempty)
         {
-            std::cout << "YES map" << std::endl;
+            m_first_operand = display->text();
+            m_flag_first_operand_isempty = false;
 
-            auto operationFunction = m_operator_functions[operatorString];
-            double firstOperand = m_first_operand.toDouble();
-            double secondOperand = m_second_operand.toDouble();
-
-            std::optional<double> result = operationFunction(firstOperand, secondOperand);
-
-            if(result.has_value())
-            {
-                m_result = QString::number(result.value());
-                 std::cout << "YES val" << std::endl;
-            }
-            else
-            {
-                std::cout << "YES err" << std::endl;
-                display->setText("Error");
-            }
+            m_operator = button->text();
+            m_operator_is_set = true;
+            display->clear();
+            return;
         }
+        else if(m_flag_second_operand_isempty)
+        {
+            m_second_operand = display->text();
+            m_flag_second_operand_isempty = false;
 
-        return;
+            m_operator = button->text();
+            m_operator_is_set = true;
+            display->clear();
+            return;
+        }
+        else
+        {
+            m_operator = button->text();
+            m_operator_is_set = true;
+            display->clear();
+            return;
+        }
     }
 
     if(button->text() == "=")
     {
-        std::cout << display->text().toStdString() << std::endl;;
-        std::cout << "YES = " <<  m_result.toStdString()  <<std::endl;
-        display->setText(QString::number(m_result.toDouble()));
+        if(!m_flag_first_operand_isempty && !m_flag_second_operand_isempty)
+        {
+            auto operationFunction = m_operationMap[m_operator];
+            double firstOperand = m_first_operand.toDouble();
+            double secondOperand = m_second_operand.toDouble();
+            operationFunction(firstOperand, secondOperand);
+            return;
+        }
+        else if(m_flag_second_operand_isempty)
+        {
+            m_second_operand = display->text();
+            m_flag_second_operand_isempty = false;
 
+            display->clear();
+        }
+
+        auto operationFunction = m_operationMap[m_operator];
+        double firstOperand = m_first_operand.toDouble();
+        double secondOperand = m_second_operand.toDouble();
+        operationFunction(firstOperand, secondOperand);
         return;
     }
 
     display->setText(display->text() + button->text());
-
 
 }
 
