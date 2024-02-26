@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -116,7 +115,7 @@ void MainWindow::multiply(double a, double b)
     m_flag_first_operand_isempty = true;
     m_flag_second_operand_isempty = true;
 }
-#include <QTextCharFormat>
+
 
 void MainWindow::divide(double a, double b)
 {
@@ -141,9 +140,11 @@ void MainWindow::clear_screan()
     m_flag_first_operand_isempty = true;
     m_flag_second_operand_isempty = true;
     m_operator_is_set = false;
+
     QPalette palette = display->palette();
     palette.setColor(QPalette::Text, Qt::white);
     display->setPalette(palette);
+
     display->setPlaceholderText("0");
 }
 

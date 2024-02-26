@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <optional>
 #include <functional>
+#include <QTextCharFormat>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
