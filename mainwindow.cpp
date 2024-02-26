@@ -95,6 +95,7 @@ void MainWindow::clear_screan()
     m_flag_first_operand_isempty = true;
     m_flag_second_operand_isempty = true;
     m_operator_is_set = false;
+    display->setPlaceholderText("0");
 }
 
 
@@ -114,6 +115,8 @@ void MainWindow::buttonClicked()
     }
     QRegExp operator_reg("([+\\-*/])");
 
+    std::cout << button->text().toStdString() << std::endl;
+
     if(button->text().contains(operator_reg))
     {
         if(m_flag_first_operand_isempty)
@@ -124,6 +127,7 @@ void MainWindow::buttonClicked()
             m_operator = button->text();
             m_operator_is_set = true;
             display->clear();
+            display->setPlaceholderText(m_first_operand);
             return;
         }
         else if(m_flag_second_operand_isempty)
@@ -131,13 +135,6 @@ void MainWindow::buttonClicked()
             m_second_operand = display->text();
             m_flag_second_operand_isempty = false;
 
-            m_operator = button->text();
-            m_operator_is_set = true;
-            display->clear();
-            return;
-        }
-        else
-        {
             m_operator = button->text();
             m_operator_is_set = true;
             display->clear();
