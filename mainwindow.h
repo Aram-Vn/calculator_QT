@@ -9,6 +9,7 @@
 #include <optional>
 #include <functional>
 #include <QTextCharFormat>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void keyPressEvent(QKeyEvent* e) override;
 
 private slots:
     void buttonClicked();

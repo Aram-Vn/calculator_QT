@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_flag_first_operand_isempty(true)
     , m_flag_second_operand_isempty(true)
     , m_operator_is_set(false)
+    , display{new QLineEdit}
 {
     ui->setupUi(this);
 
@@ -16,15 +17,15 @@ MainWindow::MainWindow(QWidget *parent)
     m_operationMap["*"] = [this](double a, double b) { multiply(a, b); };
     m_operationMap["/"] = [this](double a, double b) { divide(a, b); };
 
-    QVBoxLayout* vl = new QVBoxLayout(ui->centralwidget);
-    display = new QLineEdit;
+    QVBoxLayout* vl = new QVBoxLayout(ui->centralwidget); // ????
+
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
     display->setMinimumHeight(50);
 
     vl->addWidget(display);
 
-    QGridLayout * grid = new QGridLayout();
+    QGridLayout* grid = new QGridLayout(this);                // ????
 
     QStringList buttons {
         "7", "8", "9", "/",
@@ -38,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         for (int j = 0; j < 4; ++j)
         {
-            QPushButton *butt = new QPushButton(buttons[pos++]);
+            QPushButton* butt = new QPushButton(buttons[pos++], this); // ????
             grid->addWidget(butt, i, j);
             connect(butt, &QPushButton::clicked, this, &MainWindow::buttonClicked);
 
@@ -96,6 +97,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    QString keyText = e->text();
+
+    if (keyText.contains(QRegExp("[0-9]")))
+    {
+        display->setText(display->text() + e->key());
+    }
+}
+
 void MainWindow::add(double a, double b)
 {
     display->setText( QString::number(a + b));
@@ -148,7 +159,6 @@ void MainWindow::clear_screan()
 
     display->setPlaceholderText("0");
 }
-
 
 void MainWindow::buttonClicked()
 {
@@ -222,6 +232,7 @@ void MainWindow::buttonClicked()
     }
 
     display->setText(display->text() + button->text());
-
 }
+
+
 
