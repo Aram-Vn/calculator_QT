@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_operationMap["*"] = [this](double a, double b) { multiply(a, b); };
     m_operationMap["/"] = [this](double a, double b) { divide(a, b); };
 
-    QVBoxLayout* vl = new QVBoxLayout(ui->centralwidget); // ????
+    QVBoxLayout* vl = new QVBoxLayout(ui->centralwidget);
 
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     vl->addWidget(display);
 
-    QGridLayout* grid = new QGridLayout(this);                // ????
+    QGridLayout* grid = new QGridLayout(this);
 
     QStringList buttons {
         "7", "8", "9", "/",
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         for (int j = 0; j < 4; ++j)
         {
-            QPushButton* butt = new QPushButton(buttons[pos++], this); // ????
+            QPushButton* butt = new QPushButton(buttons[pos++], this);
             grid->addWidget(butt, i, j);
             connect(butt, &QPushButton::clicked, this, &MainWindow::buttonClicked);
 
