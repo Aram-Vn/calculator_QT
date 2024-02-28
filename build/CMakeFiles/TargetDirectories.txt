@@ -1,0 +1,9 @@
+/home/aram/dev/calculator/build/CMakeFiles/calculator.dir
+/home/aram/dev/calculator/build/CMakeFiles/edit_cache.dir
+/home/aram/dev/calculator/build/CMakeFiles/rebuild_cache.dir
+/home/aram/dev/calculator/build/CMakeFiles/list_install_components.dir
+/home/aram/dev/calculator/build/CMakeFiles/install.dir
+/home/aram/dev/calculator/build/CMakeFiles/install/local.dir
+/home/aram/dev/calculator/build/CMakeFiles/install/strip.dir
+/home/aram/dev/calculator/build/CMakeFiles/calculator_autogen_timestamp_deps.dir
+/home/aram/dev/calculator/build/CMakeFiles/calculator_autogen.dir

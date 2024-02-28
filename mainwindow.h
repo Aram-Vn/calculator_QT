@@ -10,6 +10,7 @@
 #include <functional>
 #include <QTextCharFormat>
 #include <QKeyEvent>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

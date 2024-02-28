@@ -5,6 +5,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_first_operand("0")
+    , m_second_operand("0")
     , m_flag_first_operand_isempty(true)
     , m_flag_second_operand_isempty(true)
     , m_operator_is_set(false)
@@ -97,8 +99,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
+    // qDebug() << e->key();
+
     QString keyText = e->text();
 
     if (keyText.contains(QRegExp("[0-9+\\-*/c=.]")))
@@ -108,6 +113,11 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return )
     {
         buttonClicked_handler("=");
+    }
+    else if(e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete ||
+               e->key() == Qt::Key_Delete)
+    {
+        buttonClicked_handler("c");
     }
 }
 
@@ -187,28 +197,32 @@ void MainWindow::buttonClicked_handler(QString str)
         clear_screan();
         return;
     }
-    QRegExp operator_reg("([+\\-*/])");
 
-    if(m_operator_is_set && str.contains(operator_reg) && !m_flag_first_operand_isempty && m_flag_second_operand_isempty)
-    {
-        return;
-    }
+    QRegExp operator_reg("([+\\-*/])");
+    QRegExp is_num("[0-9]");
 
     if(str.contains(operator_reg))
     {
-        if(m_flag_first_operand_isempty)
+
+        // qDebug() << " first if 215: " << str;
+        if(m_flag_first_operand_isempty && !display->text().isEmpty())
         {
+            // qDebug() << "first if p1 219: " << str << " : " << m_first_operand;
+
             m_first_operand = display->text();
             m_flag_first_operand_isempty = false;
 
             m_operator = str;
             m_operator_is_set = true;
             display->clear();
-            display->setPlaceholderText(m_first_operand);
+            QString plas_holder = m_first_operand + "  op: " + m_operator + " ";
+            display->setPlaceholderText(plas_holder);
             return;
         }
-        else if(m_flag_second_operand_isempty)
+        else if(m_flag_second_operand_isempty && !display->text().isEmpty())
         {
+            // qDebug() << " first if p2 233: " << str;
+
             m_second_operand = display->text();
             m_flag_second_operand_isempty = false;
 
@@ -217,10 +231,14 @@ void MainWindow::buttonClicked_handler(QString str)
             display->clear();
             return;
         }
+        return;
     }
 
     if(str == "=")
     {
+
+        // qDebug() << "= if 244: " << str;
+
         if(!m_flag_first_operand_isempty && !m_flag_second_operand_isempty)
         {
             auto operationFunction = m_operationMap[m_operator];
@@ -237,10 +255,14 @@ void MainWindow::buttonClicked_handler(QString str)
             display->clear();
         }
 
-        auto operationFunction = m_operationMap[m_operator];
-        double firstOperand = m_first_operand.toDouble();
-        double secondOperand = m_second_operand.toDouble();
-        operationFunction(firstOperand, secondOperand);
+        if(m_operator_is_set)
+        {
+            auto operationFunction = m_operationMap[m_operator];
+            double firstOperand = m_first_operand.toDouble();
+            double secondOperand = m_second_operand.toDouble();
+            operationFunction(firstOperand, secondOperand);
+            return;
+        }
         return;
     }
 
