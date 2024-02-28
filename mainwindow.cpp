@@ -101,7 +101,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     QString keyText = e->text();
 
-    if (keyText.contains(QRegExp("[0-9+\\-*/c=]")))
+    if (keyText.contains(QRegExp("[0-9+\\-*/c=.]")))
     {
         buttonClicked_handler(keyText);
     }
@@ -172,6 +172,11 @@ void MainWindow::buttonClicked()
 
 void MainWindow::buttonClicked_handler(QString str)
 {
+    if(str =="." && display->text().contains("."))
+    {
+        return;
+    }
+
     if(display->text() == "Error")
     {
         clear_screan();
