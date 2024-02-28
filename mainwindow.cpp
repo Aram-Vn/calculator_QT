@@ -101,7 +101,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     QString keyText = e->text();
 
-    if (keyText.contains(QRegExp("[0-9+\\-*/=c]")))
+    if (keyText.contains(QRegExp("[0-9+\\-*/c=]")))
     {
         buttonClicked_handler(keyText);
     }
