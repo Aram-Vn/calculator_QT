@@ -101,9 +101,13 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     QString keyText = e->text();
 
-    if (keyText.contains(QRegExp("[0-9]")))
+    if (keyText.contains(QRegExp("[0-9+\\-*/=c]")))
     {
-        display->setText(display->text() + e->key());
+        buttonClicked_handler(keyText);
+    }
+    else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return )
+    {
+        buttonClicked_handler("=");
     }
 }
 
@@ -163,32 +167,36 @@ void MainWindow::clear_screan()
 void MainWindow::buttonClicked()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
+    buttonClicked_handler(button->text());
+}
 
+void MainWindow::buttonClicked_handler(QString str)
+{
     if(display->text() == "Error")
     {
         clear_screan();
     }
 
-    if(button->text() == "c")
+    if(str == "c")
     {
         clear_screan();
         return;
     }
     QRegExp operator_reg("([+\\-*/])");
 
-    if(m_operator_is_set && button->text().contains(operator_reg) && !m_flag_first_operand_isempty && m_flag_second_operand_isempty)
+    if(m_operator_is_set && str.contains(operator_reg) && !m_flag_first_operand_isempty && m_flag_second_operand_isempty)
     {
         return;
     }
 
-    if(button->text().contains(operator_reg))
+    if(str.contains(operator_reg))
     {
         if(m_flag_first_operand_isempty)
         {
             m_first_operand = display->text();
             m_flag_first_operand_isempty = false;
 
-            m_operator = button->text();
+            m_operator = str;
             m_operator_is_set = true;
             display->clear();
             display->setPlaceholderText(m_first_operand);
@@ -199,14 +207,14 @@ void MainWindow::buttonClicked()
             m_second_operand = display->text();
             m_flag_second_operand_isempty = false;
 
-            m_operator = button->text();
+            m_operator = str;
             m_operator_is_set = true;
             display->clear();
             return;
         }
     }
 
-    if(button->text() == "=")
+    if(str == "=")
     {
         if(!m_flag_first_operand_isempty && !m_flag_second_operand_isempty)
         {
@@ -231,7 +239,7 @@ void MainWindow::buttonClicked()
         return;
     }
 
-    display->setText(display->text() + button->text());
+    display->setText(display->text() + str);
 }
 
 

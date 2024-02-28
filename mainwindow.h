@@ -25,6 +25,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public:
     void keyPressEvent(QKeyEvent* e) override;
 
 private slots:
@@ -35,8 +36,8 @@ private:
     void subtract(double a, double b);
     void multiply(double a, double b);
     void divide(double a, double b);
-    void handleOperatorClicked(const QString& op);
     void clear_screan();
+    void buttonClicked_handler(QString str);
 
 private:
     Ui::MainWindow *ui;
