@@ -1,16 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QLineEdit>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QPushButton>
-#include <optional>
-#include <functional>
-#include <QTextCharFormat>
-#include <QKeyEvent>
 #include <QDebug>
+#include <QGridLayout>
+#include <QKeyEvent>
+#include <QLineEdit>
+#include <QMainWindow>
+#include <QPushButton>
+#include <QRegularExpression>
+#include <QTextCharFormat>
+#include <QVBoxLayout>
+#include <functional>
+#include <optional>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -106,7 +105,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
     QString keyText = e->text();
 
-    if (keyText.contains(QRegExp("[0-9+\\-*/c=.]")))
+    if (keyText.contains(QRegularExpression("[0-9+\\-*/c=.]")))
     {
         buttonClicked_handler(keyText);
     }
@@ -198,16 +197,14 @@ void MainWindow::buttonClicked_handler(QString str)
         return;
     }
 
-    QRegExp operator_reg("([+\\-*/])");
-    QRegExp is_num("[0-9]");
+    QRegularExpression operator_reg("([+\\-*/])");
+    QRegularExpression is_num("[0-9]");
 
     if(str.contains(operator_reg))
     {
 
-        // qDebug() << " first if 215: " << str;
         if(m_flag_first_operand_isempty && !display->text().isEmpty())
         {
-            // qDebug() << "first if p1 219: " << str << " : " << m_first_operand;
 
             m_first_operand = display->text();
             m_flag_first_operand_isempty = false;
@@ -236,8 +233,6 @@ void MainWindow::buttonClicked_handler(QString str)
 
     if(str == "=")
     {
-
-        // qDebug() << "= if 244: " << str;
 
         if(!m_flag_first_operand_isempty && !m_flag_second_operand_isempty)
         {
